@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace TestingProject
+namespace Solver.exceptions
 {
     [Serializable]
     internal class IntervalInvalidException : Exception

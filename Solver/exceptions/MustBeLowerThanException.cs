@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TestingProject.exceptions
+namespace Solver.exceptions
 {
     internal class MustBeLowerThanException : Exception
     {

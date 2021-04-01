@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using TestingProject.exceptions;
+using Solver.exceptions;
 
-namespace TestingProject
+namespace Solver
 {
     internal class Program
     {
-        private const string PATH = @"C:\Users\andrei.stanimir\source\repos\TestingProject\TestingProject\input_files\";
+        private const string PATH = @"C:\Users\andrei.stanimir\source\repos\TestingProject\Solver\input_files\";
 
         public class Problema
         {
@@ -40,32 +40,30 @@ namespace TestingProject
                 {
                     throw new FileNotFoundException();
                 }
-                using (StreamReader reader = new StreamReader(path))
+                using StreamReader reader = new StreamReader(path);
+                try
                 {
-                    try
+                    if (reader.EndOfStream)
                     {
-                        if (reader.EndOfStream)
-                        {
-                            throw new Exception("File is empty");
-                        }
-                        necessaryIntervalLength = int.Parse(reader.ReadLine());
-                        CheckNumberBetween(necessaryIntervalLength, "k", 1, MAX_INTERVAL_VALUE);
-
-                        n = int.Parse(reader.ReadLine());
-                        CheckNumberBetween(n, "n", 1, MAX_N);
-
-                        ReadInterval(reader, n, out intervaleStudent);
-
-                        m = int.Parse(reader.ReadLine());
-                        CheckNumberBetween(m, "m", 1, MAX_N);
-
-                        ReadInterval(reader, m, out intervaleProfesor);
+                        throw new Exception("File is empty");
                     }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                        throw e;
-                    }
+                    necessaryIntervalLength = int.Parse(reader.ReadLine());
+                    CheckNumberBetween(necessaryIntervalLength, "k", 1, MAX_INTERVAL_VALUE);
+
+                    n = int.Parse(reader.ReadLine());
+                    CheckNumberBetween(n, "n", 1, MAX_N);
+
+                    ReadInterval(reader, n, out intervaleStudent);
+
+                    m = int.Parse(reader.ReadLine());
+                    CheckNumberBetween(m, "m", 1, MAX_N);
+
+                    ReadInterval(reader, m, out intervaleProfesor);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    throw e;
                 }
             }
 
