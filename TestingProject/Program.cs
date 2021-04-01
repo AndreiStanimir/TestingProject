@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TestingProject.exceptions;
 
 namespace TestingProject
 {
@@ -11,6 +12,8 @@ namespace TestingProject
 
         public class Problema
         {
+            private const int MAX_INTERVAL_VALUE = 1_000_000_000 - 1;
+            private const int MAX_N = 10_000;
             private int necessaryIntervalLength;
             private int n;
             private int m;
@@ -39,32 +42,69 @@ namespace TestingProject
                 }
                 using (StreamReader reader = new StreamReader(path))
                 {
-                    if (reader.EndOfStream)
+                    try
                     {
+                        if (reader.EndOfStream)
+                        {
+                            throw new Exception("File is empty");
+                        }
+                        necessaryIntervalLength = int.Parse(reader.ReadLine());
+                        CheckNumberBetween(necessaryIntervalLength, "k", 1, MAX_INTERVAL_VALUE);
+
+                        n = int.Parse(reader.ReadLine());
+                        CheckNumberBetween(n, "n", 1, MAX_N);
+
+                        ReadInterval(reader, n, out intervaleStudent);
+
+                        m = int.Parse(reader.ReadLine());
+                        CheckNumberBetween(m, "m", 1, MAX_N);
+
+                        ReadInterval(reader, m, out intervaleProfesor);
                     }
-                    necessaryIntervalLength = int.Parse(reader.ReadLine());
-
-                    n = int.Parse(reader.ReadLine());
-                    intervaleStudent = new List<Interval>(n);
-
-                    for (int i = 0; i < n; i++)
+                    catch (Exception e)
                     {
-                        string[] bounds = reader.ReadLine().Split(' ');
-                        Interval interval = new Interval(int.Parse(bounds[0]), int.Parse(bounds[1]));
-                        intervaleStudent.Add(interval);
+                        Console.WriteLine(e.Message);
+                        throw e;
                     }
-
-                    m = int.Parse(reader.ReadLine());
-                    intervaleProfesor = new List<Interval>(m);
-                    for (int i = 0; i < m; i++)
-                    {
-                        string[] bounds = reader.ReadLine().Split(' ');
-                        Interval interval = new Interval(int.Parse(bounds[0]), int.Parse(bounds[1]));
-                        intervaleProfesor.Add(interval);
-                    }
-                    intervaleStudent.OrderBy(i => i.Start).ThenBy(i => i.Final);
-                    intervaleProfesor.OrderBy(i => i.Start).ThenBy(i => i.Final);
                 }
+            }
+
+            private void ReadInterval(StreamReader reader, int n, out List<Interval> intervals)
+            {
+                intervals = new List<Interval>(n);
+
+                for (int i = 0; i < n; i++)
+                {
+                    string[] bounds = reader.ReadLine()?.Split(' ');
+                    if (bounds is null || bounds.Length != 2)
+                    {
+                        throw new Exception();
+                    }
+                    if (int.TryParse(bounds[0], out int low) && int.TryParse(bounds[1], out int upper))
+                    {
+                        CheckNumberBetween(low, "low", 0, MAX_INTERVAL_VALUE);
+                        CheckNumberBetween(upper, "upper", 0, MAX_INTERVAL_VALUE);
+
+                        if (low >= upper)
+                            throw new IntervalInvalidException("Intervals must be distinct and valid");
+
+                        Interval interval = new Interval(low, upper);
+                        intervals.Add(interval);
+                    }
+                    else
+                    {
+                        throw new IntervalInvalidException($"at postition {i}");
+                    }
+                }
+            }
+
+            private void CheckNumberBetween(int n, string name, int low, int upper)
+            {
+                if (n < low)
+                    throw new MustBeBiggerThanException(name, low);
+
+                if (n > upper)
+                    throw new MustBeLowerThanException(name, upper);
             }
 
             public void PrintIntervale()
