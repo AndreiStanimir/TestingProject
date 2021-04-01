@@ -12,11 +12,39 @@ namespace Solver
 
         private const int MAX_INTERVAL_VALUE = 1_000_000_000 - 1;
         private const int MAX_N = 10_000;
-        private int necessaryIntervalLength;
-        private int n;
-        private int m;
-        private List<Interval> intervaleStudent;
-        private List<Interval> intervaleProfesor;
+        private readonly int necessaryIntervalLength;
+        private readonly int n;
+        private readonly int m;
+
+        private List<Interval> intervaleStudent
+        {
+            get
+            {
+                return intervaleStudent;
+            }
+            set
+            {
+                if (value.Count != n)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+
+        private List<Interval> intervaleProfesor
+        {
+            get
+            {
+                return intervaleProfesor;
+            }
+            set
+            {
+                if (value.Count != m)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
 
         public Problema(int k, int n, int m, List<Interval> intervaleStudent, List<Interval> intervaleProfesor)
         {
@@ -25,13 +53,26 @@ namespace Solver
             this.m = m;
             this.intervaleStudent = intervaleStudent;
             this.intervaleProfesor = intervaleProfesor;
+            //if (n != intervaleStudent.Count)
+            //{
+            //    throw new ArgumentOutOfRangeException();
+            //}
+            //if (m != intervaleProfesor.Count)
+            //    throw new ArgumentOutOfRangeException();
+
+            CheckNumberBetween(necessaryIntervalLength, "k", 1, MAX_INTERVAL_VALUE);
+            CheckNumberBetween(n, "n", 1, MAX_N);
+            CheckNumberBetween(m, "m", 1, MAX_N);
+
+            CheckListNumbersBetween(intervaleStudent);
+            CheckListNumbersBetween(intervaleProfesor);
         }
 
         public Problema()
         {
         }
 
-        public void ReadFile(string path)
+        public Problema(string path)
         {
             path = PATH + path;
             if (!File.Exists(path))
@@ -51,12 +92,12 @@ namespace Solver
                 n = int.Parse(reader.ReadLine());
                 CheckNumberBetween(n, "n", 1, MAX_N);
 
-                ReadInterval(reader, n, out intervaleStudent);
+                intervaleStudent = ReadInterval(reader, n);
 
                 m = int.Parse(reader.ReadLine());
                 CheckNumberBetween(m, "m", 1, MAX_N);
 
-                ReadInterval(reader, m, out intervaleProfesor);
+                intervaleProfesor = ReadInterval(reader, m);
             }
             catch (Exception e)
             {
@@ -65,9 +106,13 @@ namespace Solver
             }
         }
 
-        private void ReadInterval(StreamReader reader, int n, out List<Interval> intervals)
+        public void ReadFile(string path)
         {
-            intervals = new List<Interval>(n);
+        }
+
+        private List<Interval> ReadInterval(StreamReader reader, int n)
+        {
+            var intervals = new List<Interval>(n);
 
             for (int i = 0; i < n; i++)
             {
@@ -92,6 +137,7 @@ namespace Solver
                     throw new IntervalInvalidException($"at postition {i}");
                 }
             }
+            return intervals;
         }
 
         private void CheckNumberBetween(int n, string name, int low, int upper)
@@ -101,6 +147,17 @@ namespace Solver
 
             if (n > upper)
                 throw new MustBeLowerThanException(name, upper);
+        }
+
+        private void CheckListNumbersBetween(List<Interval> intervals)
+        {
+            foreach (var i in intervals)
+            {
+                CheckNumberBetween(i.Start, "low", 0, MAX_INTERVAL_VALUE);
+                CheckNumberBetween(i.Final, "upper", 0, MAX_INTERVAL_VALUE);
+                if (i.Start >= i.Final)
+                    throw new IntervalInvalidException("Intervals must be distinct and valid");
+            }
         }
 
         public void PrintIntervale()
