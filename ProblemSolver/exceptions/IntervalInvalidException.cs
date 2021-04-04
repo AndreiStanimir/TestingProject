@@ -1,10 +1,11 @@
-﻿using System;
+﻿using ProblemSolver.exceptions;
+using System;
 using System.Runtime.Serialization;
 
 namespace Solver.exceptions
 {
     [Serializable]
-    internal class IntervalInvalidException : Exception
+    internal class IntervalInvalidException : InvalidDataException
     {
         public IntervalInvalidException()
         {

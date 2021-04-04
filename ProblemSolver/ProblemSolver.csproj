@@ -44,7 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CONSTANTS.cs" />
     <Compile Include="exceptions\IntervalInvalidException.cs" />
+    <Compile Include="exceptions\InvalidDataException.cs" />
     <Compile Include="exceptions\MustBeBiggerThanException.cs" />
     <Compile Include="exceptions\MustBeLowerThanException.cs" />
     <Compile Include="Interval.cs" />

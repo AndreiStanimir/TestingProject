@@ -6,11 +6,8 @@ namespace Solver
     public partial class Program
     {
         private static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-            var problema = new Problema();
-            problema.ReadFile("test_baza.in");
-            Console.WriteLine(problema.Solve());
+        {            var problema = new Problema("test_baza.in");
+            Console.WriteLine($"Solutia {problema.Solve()}\n");
             problema.PrintIntervale();
         }
     }

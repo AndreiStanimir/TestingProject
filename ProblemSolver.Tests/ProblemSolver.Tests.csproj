@@ -56,11 +56,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\ProblemaFactory.cs" />
+    <Compile Include="GenerateTestSets.cs" />
     <Compile Include="ProblemaTest.ConstructorTest.g.cs">
       <DependentUpon>ProblemaTest.cs</DependentUpon>
     </Compile>
     <Compile Include="ProblemaTest.cs" />
-    <Compile Include="ProblemaTest.PrintIntervale.g.cs">
+    <Compile Include="ProblemaTest.Solve.g.cs">
       <DependentUpon>ProblemaTest.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
