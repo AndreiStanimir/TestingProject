@@ -13,7 +13,7 @@ namespace Solver
 
         private readonly int n;
         private readonly int m;
-        
+
         private List<Interval> intervaleStudent;
         //{
         //    get
@@ -31,6 +31,7 @@ namespace Solver
         //}
 
         private List<Interval> intervaleProfesor;
+
         //{
         //    get
         //    {
@@ -48,7 +49,8 @@ namespace Solver
         public static bool Between(int num, int lower, int upper)
         {
             return lower <= num && num <= upper;
-                        }
+        }
+
         public bool AreValuesInsideBounds()
         {
             AssertNumberBetween(necessaryIntervalLength, "k", 1, MAX_INTERVAL_VALUE);
@@ -59,6 +61,7 @@ namespace Solver
             AssertListNumbersBetween(intervaleProfesor);
             return true;
         }
+
         public Problema(int k, int n, int m, List<Interval> intervaleStudent, List<Interval> intervaleProfesor)
         {
             this.necessaryIntervalLength = k;
@@ -100,7 +103,7 @@ namespace Solver
                     throw new Exception("File is empty");
                 }
                 necessaryIntervalLength = int.Parse(reader.ReadLine());
-                AssertNumberBetween(necessaryIntervalLength, "k", 1, MAX_INTERVAL_VALUE);
+                AssertNumberBetween(necessaryIntervalLength, "k", MIN_K, MAX_INTERVAL_VALUE);
 
                 n = int.Parse(reader.ReadLine());
                 AssertNumberBetween(n, "n", 1, MAX_N);
@@ -125,7 +128,7 @@ namespace Solver
 
             for (int i = 0; i < n; i++)
             {
-                string[] bounds = reader.ReadLine()?.Split(' ');
+                string[] bounds = reader.ReadLine().Trim()?.Split(' ');
                 if (bounds is null || bounds.Length != 2)
                 {
                     throw new Exception();
@@ -185,14 +188,14 @@ namespace Solver
             int iProfesor = 0;
             while (iStudent < n && iProfesor < m)
             {
-                while (intervaleStudent[iStudent].GetDuration() < necessaryIntervalLength)
-                    iStudent++;
-                while (intervaleProfesor[iProfesor].GetDuration() < necessaryIntervalLength)
-                    iProfesor++;
+                //while (intervaleStudent[iStudent].GetDuration() < necessaryIntervalLength)
+                //    iStudent++;
+                //while (intervaleProfesor[iProfesor].GetDuration() < necessaryIntervalLength)
+                //    iProfesor++;
                 Interval student = intervaleStudent[iStudent];
                 Interval profesor = intervaleProfesor[iProfesor];
-                var x = Math.Max(intervaleStudent[iStudent].Start, intervaleProfesor[iProfesor].Start);
-                var y = Math.Min(intervaleStudent[iStudent].Final, intervaleProfesor[iProfesor].Final);
+                var x = Math.Max(student.Start, profesor.Start);
+                var y = Math.Min(student.Final, profesor.Final);
 
                 if (y - x >= necessaryIntervalLength)
                 {

@@ -11,6 +11,13 @@
             Final = final;
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is Interval interval &&
+                   Start == interval.Start &&
+                   Final == interval.Final;
+        }
+
         public int GetDuration()
         {
             return Final - Start;
@@ -20,5 +27,6 @@
         {
             return Start + ", " + Final;
         }
+
     }
 }

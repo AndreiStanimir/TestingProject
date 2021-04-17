@@ -58,6 +58,21 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="input_files\test_baza.in" />
+    <None Include="output_files\exception2.out" />
+    <None Include="output_files\exception1.out" />
+    <None Include="output_files\no_solution.out" />
+    <None Include="output_files\result1.out" />
+    <None Include="output_files\result2.out" />
+    <None Include="output_files\result3.out" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="input_files\exception2.txt" />
+    <Content Include="input_files\exception1.txt" />
+    <Content Include="input_files\no_solution.txt" />
+    <Content Include="input_files\result1.txt" />
+    <Content Include="input_files\result2.txt" />
+    <Content Include="input_files\result3.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ProblemSolver.Tests1")]
+[assembly: AssemblyTitle("ProblemSolverTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Avira Operations GmbH & Co. KG;")]
-[assembly: AssemblyProduct("ProblemSolver.Tests1")]
+[assembly: AssemblyProduct("ProblemSolverTests")]
 [assembly: AssemblyCopyright("Copyright © Avira Operations GmbH & Co. KG; 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("bb991324-5348-47f8-ad9a-0f059e1c1e1d")]
+[assembly: Guid("940026e2-7b99-4202-babd-85671ade6ed1")]
 
 // Version information for an assembly consists of the following four values:
 //
