@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProblemSolver.Tests
+namespace Solver.Tests
 {
     public class GenerateTestSets : CONSTANTS
     {

@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Solver.exceptions;
 namespace Solver.Tests
 {
     [TestFixture()]
@@ -14,41 +14,7 @@ namespace Solver.Tests
     {
         private const string OUTPUT_PATH = @"C:\Users\andrei.stanimir\source\repos\TestingProject\ProblemSolver\output_files\";
 
-        [Test()]
-        public void BetweenTest()
-        {
-            Assert.Fail();
-        }
-
-        [Test()]
-        public void AreValuesInsideBoundsTest()
-        {
-            Assert.Fail();
-        }
-
-        [Test()]
-        public void ProblemaTest()
-        {
-            Assert.Fail();
-        }
-
-        [Test()]
-        public void ProblemaTest1()
-        {
-            Assert.Fail();
-        }
-
-        [Test()]
-        public void ProblemaTest2()
-        {
-            Assert.Fail();
-        }
-
-        [Test()]
-        public void PrintIntervaleTest()
-        {
-            Assert.Fail();
-        }
+       
 
         [TestCase(4, 2, 2, new[] { 1, 11 }, new[] { 10, 13 }, new[] { 2, 5 }, new[] { 4, 12 }, 5, 9)]
         [TestCase(5, 2, 2, new[] { 1, 11 }, new[] { 10, 13 }, new[] { 2, 5 }, new[] { 4, 12 }, 5, 10)]
@@ -71,7 +37,7 @@ namespace Solver.Tests
             Interval solutie = problema.Solve();
             Assert.AreEqual(new Interval(resultX, resultY), solutie);
         }
-
+        [TestCase("test_baza.txt",Category =("Base test"))]
         [TestCase("result1.txt"), Category("Boundary Analysis")]
         [TestCase("result2.txt"), Category("Boundary Analysis")]
         [TestCase("result3.txt"), Category("Boundary Analysis")]
@@ -87,8 +53,7 @@ namespace Solver.Tests
             {
                 Assert.Fail("expected output file is empty");
             }
-            try
-            {
+            
                 Problema problema = new Problema(inputFile);
                 Interval interval = problema.Solve();
                 if (interval == null)
@@ -110,23 +75,29 @@ namespace Solver.Tests
                         Assert.Fail("couldn't parse ouput file content");
                     }
                 }
-            }
-            catch (FileNotFoundException e)
-            {
-                Assert.Fail("input file doesn't exist");
-                throw e;
-            }
-            catch (Exception e)
-            {
-                Assert.AreEqual("exception", expectedOutput,"Error %s",e.Message);
-            }
+            
+            //catch (FileNotFoundException e)
+            //{
+            //    Assert.Fail("input file doesn't exist");
+            //    throw e;
+            //}
+            //catch (Exception e)
+            //{
+            //    Assert.AreEqual("exception", expectedOutput, "Error %s", e.Message);
+            //    throw e;
+            //}
         }
 
-        [TestCase("exception1.txt")]
-        [TestCase("exception2.txt"),Category("Equivalence partitioning")]
+        [TestCase("exception1.txt"), Category("Equivalence partitioning")]
+        [TestCase("exception2.txt"), Category("Equivalence partitioning")]
         public void ThrowsOutOfBounds(string input)
         {
-            SolveProblem(input);
+            Assert.Catch<InvalidInputDataException>(() => SolveProblem(input));
+        }
+        [TestCase("exception3.txt"), Category("Equivalence partitioning")]
+        public void ThrowsIntervalInvalid(string input)
+        {
+            Assert.Throws<IntervalInvalidException>(() => SolveProblem(input));
         }
         [TestCase("no_solution.txt")]
         public void NoSolution(string input)

@@ -15,37 +15,9 @@ namespace Solver
         private readonly int m;
 
         private List<Interval> intervaleStudent;
-        //{
-        //    get
-        //    {
-        //        return intervaleStudent;
-        //    }
-        //    set
-        //    {
-        //        //if (value.Count != n)
-        //        //{
-        //        //    throw new ArgumentOutOfRangeException();
-        //        //}
-        //        intervaleStudent = value;
-        //    }
-        //}
 
         private List<Interval> intervaleProfesor;
 
-        //{
-        //    get
-        //    {
-        //        return intervaleProfesor;
-        //    }
-        //    //set
-        //    //{
-        //    //    //if (value.Count != m)
-        //    //    //{
-        //    //    //    throw new ArgumentOutOfRangeException();
-        //    //    //}
-        //    //    intervaleProfesor = value;
-        //    //}
-        //}
         public static bool Between(int num, int lower, int upper)
         {
             return lower <= num && num <= upper;
@@ -69,12 +41,6 @@ namespace Solver
             this.m = m;
             this.intervaleStudent = intervaleStudent;
             this.intervaleProfesor = intervaleProfesor;
-            //if (n != intervaleStudent.Count)
-            //{
-            //    throw new ArgumentOutOfRangeException();
-            //}
-            //if (m != intervaleProfesor.Count)
-            //    throw new ArgumentOutOfRangeException();
 
             AssertNumberBetween(necessaryIntervalLength, "k", 1, MAX_INTERVAL_VALUE);
             AssertNumberBetween(n, "n", 1, MAX_N);
@@ -115,10 +81,14 @@ namespace Solver
 
                 intervaleProfesor = ReadInterval(reader, m);
             }
+            catch (IntervalInvalidException e)
+            {
+                throw e;
+            }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                throw e;
+                throw new InvalidInputDataException();
             }
         }
 
@@ -128,25 +98,32 @@ namespace Solver
 
             for (int i = 0; i < n; i++)
             {
-                string[] bounds = reader.ReadLine().Trim()?.Split(' ');
-                if (bounds is null || bounds.Length != 2)
+                try
                 {
-                    throw new Exception();
-                }
-                if (int.TryParse(bounds[0], out int low) && int.TryParse(bounds[1], out int upper))
-                {
-                    AssertNumberBetween(low, "low", 0, MAX_INTERVAL_VALUE);
-                    AssertNumberBetween(upper, "upper", 0, MAX_INTERVAL_VALUE);
+                    string[] bounds = reader.ReadLine().Trim()?.Split(' ');
+                    if (bounds is null || bounds.Length != 2)
+                    {
+                        throw new InvalidInputDataException(i.ToString());
+                    }
+                    if (int.TryParse(bounds[0], out int low) && int.TryParse(bounds[1], out int upper))
+                    {
+                        AssertNumberBetween(low, "low", 0, MAX_INTERVAL_VALUE);
+                        AssertNumberBetween(upper, "upper", 0, MAX_INTERVAL_VALUE);
 
-                    if (low >= upper)
-                        throw new IntervalInvalidException("Intervals must be distinct and valid");
+                        if (low >= upper)
+                            throw new IntervalInvalidException("Intervals must be distinct and valid");
 
-                    Interval interval = new Interval(low, upper);
-                    intervals.Add(interval);
+                        Interval interval = new Interval(low, upper);
+                        intervals.Add(interval);
+                    }
+                    else
+                    {
+                        throw new IntervalInvalidException($"at postition {i}");
+                    }
                 }
-                else
+                catch(InvalidInputDataException e)
                 {
-                    throw new IntervalInvalidException($"at postition {i}");
+                    throw e;
                 }
             }
             return intervals;

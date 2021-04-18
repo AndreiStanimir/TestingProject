@@ -1,9 +1,9 @@
-﻿using ProblemSolver.exceptions;
+﻿using Solver.exceptions;
 using System;
 
 namespace Solver.exceptions
 {
-    internal class MustBeBiggerThanException : InvalidDataException
+    public class MustBeBiggerThanException : InvalidInputDataException
     {
         public MustBeBiggerThanException(string variable, int nr)
             : base($"{variable} must be bigger than {nr}")
