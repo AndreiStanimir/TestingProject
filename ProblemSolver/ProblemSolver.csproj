@@ -68,6 +68,7 @@
     <None Include="output_files\result2.out" />
     <None Include="output_files\result3.out" />
     <None Include="output_files\test_baza.out" />
+    <None Include="stryker-config.json" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
