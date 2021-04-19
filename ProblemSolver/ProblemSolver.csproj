@@ -57,6 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="input_files\intervals_distinct.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="input_files\test_baza.txt" />
     <None Include="output_files\exception2.out" />
     <None Include="output_files\exception1.out" />
