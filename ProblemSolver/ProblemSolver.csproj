@@ -57,12 +57,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="input_files\exception_mutant1.txt" />
     <Content Include="input_files\intervals_distinct.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="input_files\no_solution3.txt" />
+    <Content Include="input_files\no_solution2.txt" />
     <Content Include="input_files\test_baza.txt" />
     <None Include="output_files\exception2.out" />
     <None Include="output_files\exception1.out" />
+    <None Include="output_files\no_solution3.out" />
+    <None Include="output_files\no_solution2.out" />
     <None Include="output_files\no_solution.out" />
     <None Include="output_files\result1.out" />
     <None Include="output_files\result2.out" />

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Solver.exceptions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Solver.exceptions;
 
 namespace Solver {
+
     public class Problema : CONSTANTS {
         private const string INPUT_FOLDER_PATH = @"C:\Users\andrei.stanimir\source\repos\TestingProject\ProblemSolver\input_files\";
         private readonly int necessaryIntervalLength;
@@ -16,22 +17,16 @@ namespace Solver {
 
         private List<Interval> intervaleProfesor;
 
-        public static bool Between(int num, int lower, int upper) {
-            return lower <= num && num <= upper;
-        }
-
-        public bool AreValuesInsideBounds() {
+        public void AssertValuesInsideBounds() {
             AssertNumberBetween(necessaryIntervalLength, "k", 1, MAX_INTERVAL_VALUE);
             AssertNumberBetween(n, "n", 1, MAX_N);
             AssertNumberBetween(m, "m", 1, MAX_N);
 
-            AssertListNumbersBetween(intervaleStudent);
-            AssertListNumbersBetween(intervaleProfesor);
+            //AssertListNumbersBetween(intervaleStudent);
+            //AssertListNumbersBetween(intervaleProfesor);
 
             AssertIntervalsAreDistinct(intervaleStudent);
             AssertIntervalsAreDistinct(intervaleProfesor);
-
-            return true;
         }
 
         public Problema(int k, int n, int m, List<Interval> intervaleStudent, List<Interval> intervaleProfesor) {
@@ -41,10 +36,7 @@ namespace Solver {
             this.intervaleStudent = intervaleStudent;
             this.intervaleProfesor = intervaleProfesor;
 
-            AreValuesInsideBounds();
-        }
-
-        public Problema() {
+            AssertValuesInsideBounds();
         }
 
         public Problema(string path) {
@@ -69,7 +61,6 @@ namespace Solver {
                 AssertNumberBetween(m, "m", 1, MAX_N);
 
                 intervaleProfesor = ReadInterval(reader, m);
-
             } catch (IntervalInvalidException e) {
                 throw e;
             } catch (Exception e) {
@@ -115,14 +106,14 @@ namespace Solver {
                 throw new MustBeLowerThanException(name, upper);
         }
 
-        private void AssertListNumbersBetween(List<Interval> intervals) {
-            foreach (var i in intervals) {
-                AssertNumberBetween(i.Start, "low", 0, MAX_INTERVAL_VALUE);
-                AssertNumberBetween(i.Final, "upper", 0, MAX_INTERVAL_VALUE);
-                if (i.Start >= i.Final)
-                    throw new IntervalInvalidException("Intervals must be valid");
-            }
-        }
+        //private void AssertListNumbersBetween(List<Interval> intervals) {
+        //    foreach (var i in intervals) {
+        //        AssertNumberBetween(i.Start, "low", 0, MAX_INTERVAL_VALUE);
+        //        AssertNumberBetween(i.Final, "upper", 0, MAX_INTERVAL_VALUE);
+        //        if (i.Start >= i.Final)
+        //            throw new IntervalInvalidException("Intervals must be valid");
+        //    }
+        //}
         private void AssertIntervalsAreDistinct(List<Interval> intervals) {
             for (int i = 0; i < intervals.Count - 1; i++) {
                 if (intervals[i].Final >= intervals[i + 1].Start) {
@@ -138,6 +129,10 @@ namespace Solver {
         }
 
         public Interval? Solve() {
+            //amestec elementele, ca sa nu fie in ordine
+            intervaleStudent = intervaleStudent.OrderBy(a => Guid.NewGuid()).ToList();
+            intervaleProfesor = intervaleProfesor.OrderBy(a => Guid.NewGuid()).ToList();
+
             intervaleStudent.Sort(new IntervalComparer());
             intervaleProfesor.Sort(new IntervalComparer());
 

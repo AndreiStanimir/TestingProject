@@ -1,0 +1,34 @@
+{
+  "stryker-config": {
+    "reporters": [
+      "progress",
+      "html"
+    ],
+    "log-level": "info",
+    "log-file": true,
+    "timeout-ms": 10000,
+    //"project-file": "../\\ProblemSolver\\ProblemSolver.csproj",
+    "solution-path": " ..\\TestingProject.sln",
+    "max-concurrent-test-runners": 4,
+    "threshold-high": 80,
+    "threshold-low": 70,
+    "threshold-break": 60,
+    "mutation-level": "Standard",
+    "mutate": [
+      "!ExampleClass.cs",
+      "!Migrations/*.*",
+      "!ExampleDirectory\\ExampleClass2.cs"
+    ],
+    "excluded-mutations": [
+      "string"
+      //"Logical operators"
+    ],
+    "ignore-methods": [
+      "*Log*",
+      "ToString",
+      "*HashCode*"
+    ]
+    //"dashboard-compare": true
+
+  }
+}
